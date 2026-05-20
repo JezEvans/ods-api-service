@@ -21,6 +21,9 @@ BUILD_DIR := core/target
 JAR_FILE := docker/app.jar
 NATIVE_BINARY := docker/app
 
+# Path to the binary executed by `make quick-start`
+QUICK_START_BINARY := /opt/ods-api-service/docker/quick-start
+
 # Spring config folder to use when running locally (contains application*.yaml files)
 # Defaults to the `chart/config` folder in the repo. You can override by setting
 # SPRING_CONFIG_DIR on the make command line or environment, e.g.
@@ -267,8 +270,10 @@ all: jar docker
 		echo "$(GREEN)✓ JAR and Docker builds complete$(NC)"; \
 	fi
 
-## Quick start for development
-quick-start: jar run-jar
+## Quick start: run the binary defined in QUICK_START_BINARY
+quick-start:
+	chmod +x $(QUICK_START_BINARY)
+	$(QUICK_START_BINARY)
 
 ## Clean everything including Docker images
 clean-all: clean
